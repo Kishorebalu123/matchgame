@@ -1,5 +1,7 @@
 import {Component} from 'react'
 
+import GameOver from './components/GameOver'
+
 import Header from './components/Header'
 
 import TabItem from './components/TabItem'
@@ -259,6 +261,16 @@ class App extends Component {
   state = {
     activeTabId: tabsList[0].tabId,
     activeImage: imagesList[0],
+    count: 60,
+    score: 0,
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(this.tick, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID)
   }
 
   clickTabItem = tabValue => {
@@ -271,6 +283,7 @@ class App extends Component {
     if (activeImage.id === id) {
       console.log(randomNumber)
       this.setState({activeImage: imagesList[randomNumber]})
+      this.setState(prevState => ({score: prevState.score + 1}))
     }
   }
 
@@ -282,39 +295,56 @@ class App extends Component {
     return filteredProjects
   }
 
-  render() {
-    const {activeTabId, activeImage} = this.state
-    const filteredProjects = this.getFilteredProjects()
+  tick = () => {
+    this.setState(prevState => ({count: prevState.count - 1}))
+  }
 
+  clearTimer = () => {
+    const {count} = this.state
+    if (count === 50) {
+      clearInterval(this.timerID)
+    }
+  }
+
+  render() {
+    const {activeTabId, activeImage, count, score} = this.state
+    const filteredProjects = this.getFilteredProjects()
+    this.clearTimer()
+    const isGameOver = count === 50
     return (
       <div className="bg-card">
-        <div>
-          <Header />
-        </div>
-        <div className="img-container">
-          <img src={activeImage.imageUrl} className="img" alt="" />
-        </div>
-        <ul className="tabs-container">
-          {tabsList.map(tabDetails => (
-            <TabItem
-              key={tabDetails.tabId}
-              tabDetails={tabDetails}
-              clickTabItem={this.clickTabItem}
-              isActive={activeTabId === tabDetails.tabId}
-            />
-          ))}
-        </ul>
-        <div>
-          <ul className="project-container">
-            {filteredProjects.map(projectDetails => (
-              <ProjectItem
-                key={projectDetails.id}
-                projectDetails={projectDetails}
-                clickTabImage={this.clickTabImage}
-              />
-            ))}
-          </ul>
-        </div>
+        <Header count={count} score={score} />
+        {isGameOver ? (
+          <div className="bg-game-over">
+            <GameOver score={score} />
+          </div>
+        ) : (
+          <>
+            <div className="img-container">
+              <img src={activeImage.imageUrl} className="img" alt="" />
+            </div>
+            <ul className="tabs-container">
+              {tabsList.map(tabDetails => (
+                <TabItem
+                  key={tabDetails.tabId}
+                  tabDetails={tabDetails}
+                  clickTabItem={this.clickTabItem}
+                  isActive={activeTabId === tabDetails.tabId}
+                />
+              ))}
+            </ul>
+
+            <ul className="project-container">
+              {filteredProjects.map(projectDetails => (
+                <ProjectItem
+                  key={projectDetails.id}
+                  projectDetails={projectDetails}
+                  clickTabImage={this.clickTabImage}
+                />
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     )
   }

@@ -263,14 +263,11 @@ class App extends Component {
     activeImage: imagesList[0],
     count: 60,
     score: 0,
+    gameOver: false,
   }
 
   componentDidMount() {
     this.timerID = setInterval(this.tick, 1000)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID)
   }
 
   clickTabItem = tabValue => {
@@ -285,6 +282,7 @@ class App extends Component {
       this.setState({activeImage: imagesList[randomNumber]})
       this.setState(prevState => ({score: prevState.score + 1}))
     }
+    // this.setState(prevState => ({gameOver: prevState.gameOver}))
   }
 
   getFilteredProjects = () => {
@@ -301,23 +299,28 @@ class App extends Component {
 
   clearTimer = () => {
     const {count} = this.state
-    if (count === 50) {
+    if (count === 54) {
       clearInterval(this.timerID)
     }
   }
 
+  startGame = () => {
+    // this.setState({count: 60})
+    this.componentDidMount()
+  }
+
   render() {
-    const {activeTabId, activeImage, count, score} = this.state
+    const {activeTabId, activeImage, count, score, gameOver} = this.state
     const filteredProjects = this.getFilteredProjects()
     this.clearTimer()
-    const isGameOver = count === 50
+
+    //   const gameOver = count === 0
+
     return (
       <div className="bg-card">
         <Header count={count} score={score} />
-        {isGameOver ? (
-          <div className="bg-game-over">
-            <GameOver score={score} />
-          </div>
+        {gameOver ? (
+          <GameOver score={score} startGame={this.startGame} />
         ) : (
           <>
             <div className="img-container">

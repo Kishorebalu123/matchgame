@@ -1,3 +1,29 @@
-.game-over{
-    
+.bg-game-over {
+  background-image: url('https://assets.ccbp.in/frontend/react-js/match-game-score-card-sm-bg.png');
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 90px;
+  height: 590px;
+  width: 350px;
+  background-size: cover;
+}
+.trophy {
+  height: 120px;
+  width: 180px;
+}
+.button {
+  background-color: blueviolet;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 120px;
+}
+.reset {
+  height: 20px;
+  width: 20px;
 }

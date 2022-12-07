@@ -20,7 +20,7 @@ const Header = props => {
             alt="timer"
             className="timer"
           />
-          <p className="">{count}</p>
+          <p className="">{count} sec</p>
         </div>
       </div>
     </div>

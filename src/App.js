@@ -276,13 +276,16 @@ class App extends Component {
 
   clickTabImage = id => {
     const {activeImage} = this.state
+
     const randomNumber = Math.floor(Math.random() * imagesList.length) + 1
     if (activeImage.id === id) {
-      console.log(randomNumber)
+      // console.log(randomNumber)
       this.setState({activeImage: imagesList[randomNumber]})
       this.setState(prevState => ({score: prevState.score + 1}))
+    } else {
+      clearInterval(this.timerID)
+      this.setState({gameOver: true})
     }
-    // this.setState(prevState => ({gameOver: prevState.gameOver}))
   }
 
   getFilteredProjects = () => {
@@ -294,37 +297,42 @@ class App extends Component {
   }
 
   tick = () => {
-    this.setState(prevState => ({count: prevState.count - 1}))
-  }
-
-  clearTimer = () => {
     const {count} = this.state
-    if (count === 54) {
+    if (count === 0) {
       clearInterval(this.timerID)
+      this.setState({gameOver: true})
+    } else {
+      this.setState(prevState => ({count: prevState.count - 1}))
     }
   }
 
+  clearTimer = () => {
+    //  const {count} = this.state
+  }
+
   startGame = () => {
-    // this.setState({count: 60})
+    this.setState({count: 60, score: 0, gameOver: false})
     this.componentDidMount()
   }
 
   render() {
     const {activeTabId, activeImage, count, score, gameOver} = this.state
     const filteredProjects = this.getFilteredProjects()
-    this.clearTimer()
-
-    //   const gameOver = count === 0
+    // this.clearTimer()
+    const {imageUrl} = activeImage
+    //   const gameOver = count === 54
 
     return (
       <div className="bg-card">
-        <Header count={count} score={score} />
+        <ul className="bg-card1">
+          <Header count={count} score={score} />
+        </ul>
         {gameOver ? (
           <GameOver score={score} startGame={this.startGame} />
         ) : (
           <>
             <div className="img-container">
-              <img src={activeImage.imageUrl} className="img" alt="" />
+              <img src={imageUrl} className="img" alt="match" />
             </div>
             <ul className="tabs-container">
               {tabsList.map(tabDetails => (

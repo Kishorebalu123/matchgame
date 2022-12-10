@@ -12,7 +12,7 @@ const GameOver = props => {
         alt="trophy"
         className="trophy"
       />
-      <p>Your Score</p>
+      <p>YOUR SCORE</p>
       <p>{score}</p>
       <button className="button" type="button" onClick={resetGame}>
         <img

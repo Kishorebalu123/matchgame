@@ -11,12 +11,13 @@ const ProjectItem = props => {
   return (
     <>
       <li className="project-item-container">
-        <img
-          className="project-item-image"
-          src={thumbnailUrl}
-          alt={`project-item${id}`}
-          onClick={onClickBtn}
-        />
+        <button type="button" onClick={onClickBtn}>
+          <img
+            className="project-item-image"
+            src={thumbnailUrl}
+            alt="thumbnail"
+          />
+        </button>
       </li>
     </>
   )

@@ -11,12 +11,13 @@ const TabItem = props => {
 
   return (
     <li className="tab-item-container ">
-      <p
+      <button
+        type="button"
         className={`tab-btn ${activeTabBtnClassName}`}
         onClick={onClickTabItem}
       >
         {displayText}
-      </p>
+      </button>
     </li>
   )
 }

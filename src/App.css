@@ -16,6 +16,16 @@ body {
   background-image: url('https://assets.ccbp.in/frontend/react-js/match-game-bg.png');
   background-size: cover;
 }
+.bg-card1 {
+  list-style-type: none;
+  max-height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: blueviolet;
+  margin-bottom: 10px;
+}
 .img-container {
   display: flex;
   justify-content: center;
